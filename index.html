@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Discover independent Nigerian music on AfroWave.">
+  <title>AfroWave — Discover Your Sound</title>
+
+  <style>
+    :root {
+      --bg: #101010;
+      --panel: #181818;
+      --panel-hover: #252525;
+      --text: #ffffff;
+      --muted: #a7a7a7;
+      --green: #1ed760;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+      padding-bottom: 105px;
+    }
+
+    button, input {
+      font: inherit;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .layout {
+      display: grid;
+      grid-template-columns: 230px minmax(0, 1fr);
+      gap: 8px;
+      padding: 8px;
+      min-height: 100vh;
+    }
+
+    .sidebar {
+      background: var(--panel);
+      border-radius: 10px;
+      padding: 24px 16px;
+    }
+
+    .logo {
+      color: var(--green);
+      font-size: 27px;
+      font-weight: 800;
+      margin-bottom: 35px;
+    }
+
+    .nav-button {
+      display: block;
+      width: 100%;
+      border: 0;
+      background: transparent;
+      color: var(--muted);
+      text-align: left;
+      padding: 13px 8px;
+      border-radius: 6px;
+      margin-bottom: 5px;
+    }
+
+    .nav-button:hover,
+    .nav-button.active {
+      background: var(--panel-hover);
+      color: white;
+    }
+
+    .main {
+      background: linear-gradient(#263b30, var(--panel) 350px);
+      border-radius: 10px;
+      padding: 28px;
+      min-width: 0;
+    }
+
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-wrap: wrap;
+      margin-bottom: 35px;
+    }
+
+    .search {
+      background: white;
+      color: #111;
+      border: 0;
+      border-radius: 30px;
+      padding: 13px 18px;
+      width: min(100%, 340px);
+      outline: none;
+    }
+
+    .profile {
+      background: #282828;
+      padding: 10px 15px;
+      border-radius: 25px;
+      font-size: 14px;
+    }
+
+    h1 {
+      font-size: clamp(28px, 5vw, 42px);
+      margin-bottom: 12px;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      line-height: 1.6;
+      margin-bottom: 28px;
+    }
+
+    .section-heading {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin: 30px 0 18px;
+    }
+
+    .section-heading h2 {
+      font-size: 22px;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .music-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      gap: 16px;
+    }
+
+    .song-card {
+      background: rgba(24, 24, 24, 0.8);
+      border-radius: 9px;
+      padding: 13px;
+      transition: background 0.2s;
+      min-width: 0;
+    }
+
+    .song-card:hover {
+      background: #282828;
+    }
+
+    .cover {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      border-radius: 7px;
+      margin-bottom: 14px;
+      font-size: 45px;
+      background: linear-gradient(135deg, #315e4a, #17251d);
+    }
+
+    .song-card h3 {
+      font-size: 15px;
+      margin-bottom: 7px;
+      overflow-wrap: anywhere;
+    }
+
+    .song-card p {
+      color: var(--muted);
+      font-size: 13px;
+      margin-bottom: 15px;
+    }
+
+    .play-button {
+      background: var(--green);
+      color: #071b0d;
+      border: 0;
+      border-radius: 25px;
+      padding: 10px 17px;
+      font-weight: bold;
+    }
+
+    .play-button:hover {
+      background: #6cff9c;
+    }
+
+    .upload-box {
+      margin-top: 30px;
+      padding: 20px;
+      border: 1px solid #393939;
+      border-radius: 10px;
+    }
+
+    .upload-box h2 {
+      margin-bottom: 10px;
+      font-size: 19px;
+    }
+
+    .upload-box p {
+      color: var(--muted);
+      font-size: 14px;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+
+    .file-input {
+      display: block;
+      width: 100%;
+      max-width: 400px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+
+    .notice {
+      color: var(--muted);
+      font-size: 12px;
+      margin-top: 12px;
+      line-height: 1.5;
+    }
+
+    .player {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      z-index: 5;
+      background: #090909;
+      border-top: 1px solid #303030;
+      padding: 14px 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+      align-items: center;
+      gap: 20px;
+    }
+
+    .now-playing {
+      min-width: 0;
+    }
+
+    .now-playing strong {
+      display: block;
+      overflow-wrap: anywhere;
+      margin-bottom: 5px;
+    }
+
+    .now-playing span {
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .player-controls {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    .control-button {
+      border: 0;
+      background: transparent;
+      color: white;
+      font-size: 22px;
+    }
+
+    .control-button.main-play {
+      background: white;
+      color: black;
+      border-radius: 50%;
+      width: 42px;
+      height: 42px;
+      font-size: 19px;
+    }
+
+    audio {
+      width: 100%;
+      max-width: 500px;
+      height: 32px;
+    }
+
+    .empty-message {
+      color: var(--muted);
+      padding: 15px 0;
+      line-height: 1.6;
+    }
+
+    @media (max-width: 700px) {
+      .layout {
+        display: block;
+        padding: 0;
+      }
+
+      .sidebar {
+        border-radius: 0;
+        padding: 16px;
+      }
+
+      .logo {
+        margin-bottom: 12px;
+      }
+
+      .nav-button {
+        display: inline-block;
+        width: auto;
+        margin-right: 5px;
+      }
+
+      .main {
+        border-radius: 0;
+        padding: 20px 16px;
+      }
+
+      .music-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+      }
+
+      .player {
+        grid-template-columns: 1fr;
+        gap: 10px;
+        padding: 10px 14px;
+      }
+
+      .player-controls {
+        justify-content: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="logo">♪ AfroWave</div>
+
+      <nav aria-label="Main navigation">
+        <button class="nav-button active" data-view="home">
+          🏠 Home
+        </button>
+        <button class="nav-button" data-view="search">
+          🔍 Search
+        </button>
+        <button class="nav-button" data-view="library">
+          📚 Your Library
+        </button>
+      </nav>
+    </aside>
+
+    <main class="main">
+      <div class="topbar">
+        <input
+          class="search"
+          id="searchInput"
+          type="search"
+          placeholder="Search songs or artists..."
+          aria-label="Search songs or artists"
+        >
+        <div class="profile">🎧 Music lover</div>
+      </div>
+
+      <section>
+        <h1 id="pageTitle">Discover your sound.</h1>
+        <p class="subtitle" id="pageSubtitle">
+          Explore Nigerian music and discover your next favorite artist.
+        </p>
+      </section>
+
+      <div class="section-heading">
+        <h2 id="sectionTitle">Featured music</h2>
+        <span class="muted" id="songCount">0 songs</span>
+      </div>
+
+      <section
+        class="music-grid"
+        id="musicGrid"
+        aria-label="Music collection"
+      ></section>
+
+      <section class="upload-box">
+        <h2>Try your own music</h2>
+        <p>
+          Choose an audio file from your device to test the music player.
+          This is a local demo; your file is not uploaded to a server.
+        </p>
+
+        <input
+          class="file-input"
+          type="file"
+          id="audioFile"
+          accept="audio/*"
+          aria-label="Choose an audio file"
+        >
+
+        <button class="play-button" id="loadFile">
+          Play selected audio
+        </button>
+
+        <p class="notice" id="uploadNotice" aria-live="polite">
+          Only use music you own or have permission to play.
+        </p>
+      </section>
+    </main>
+  </div>
+
+  <footer class="player">
+    <div class="now-playing">
+      <strong id="nowTitle">Nothing playing yet</strong>
+      <span id="nowArtist">Choose a song to begin</span>
+    </div>
+
+    <div class="player-controls">
+      <button
+        class="control-button"
+        id="previousButton"
+        aria-label="Previous song"
+      >⏮</button>
+
+      <button
+        class="control-button main-play"
+        id="playPauseButton"
+        aria-label="Play or pause"
+      >▶</button>
+
+      <button
+        class="control-button"
+        id="nextButton"
+        aria-label="Next song"
+      >⏭</button>
+
+      <audio id="audioPlayer" controls preload="metadata"></audio>
+    </div>
+  </footer>
+
+  <script>
+    // AfroWave: first frontend prototype.
+    // Songs added here are demonstration entries, not real audio.
+
+    const songs = [
+      {
+        id: 1,
+        title: "Your First Song",
+        artist: "AfroWave Artist",
+        emoji: "🎵",
+        audio: ""
+      },
+      {
+        id: 2,
+        title: "Lagos Nights",
+        artist: "Demo Artist",
+        emoji: "🌃",
+        audio: ""
+      },
+      {
+        id: 3,
+        title: "Golden Vibes",
+        artist: "Demo Artist",
+        emoji: "✨",
+        audio: ""
+      },
+      {
+        id: 4,
+        title: "Afrobeat Energy",
+        artist: "Demo Artist",
+        emoji: "🥁",
+        audio: ""
+      }
+    ];
+
+    let currentSongIndex = -1;
+    let currentView = "home";
+    let localAudioUrl = null;
+
+    const grid = document.getElementById("musicGrid");
+    const audio = document.getElementById("audioPlayer");
+    const searchInput = document.getElementById("searchInput");
+    const playPauseButton = document.getElementById("playPauseButton");
+
+    function renderSongs() {
+      const query = searchInput.value.trim().toLowerCase();
+
+      let visibleSongs = songs.filter(song => {
+        const matchesSearch =
+          song.title.toLowerCase().includes(query) ||
+          song.artist.toLowerCase().includes(query);
+
+        const matchesLibrary =
+          currentView !== "library" || song.audio !== "";
+
+        return matchesSearch && matchesLibrary;
+      });
+
+      grid.innerHTML = "";
+
+      document.getElementById("songCount").textContent =
+        visibleSongs.length + (visibleSongs.length === 1 ? " song" : " songs");
+
+      if (visibleSongs.length === 0) {
+        grid.innerHTML =
+          '<p class="empty-message">No songs found. Try another search or select a local audio file below.</p>';
+        return;
+      }
+
+      visibleSongs.forEach(song => {
+        const card = document.createElement("article");
+        card.className = "song-card";
+
+        const cover = document.createElement("div");
+        cover.className = "cover";
+        cover.textContent = song.emoji;
+
+        const title = document.createElement("h3");
+        title.textContent = song.title;
+
+        const artist = document.createElement("p");
+        artist.textContent = song.artist;
+
+        const button = document.createElement("button");
+        button.className = "play-button";
+        button.textContent = song.audio ? "▶ Play" : "Demo only";
+
+        if (song.audio) {
+          button.addEventListener("click", () => {
+            playSong(song.id);
+          });
+        } else {
+          button.disabled = true;
+          button.style.opacity = "0.55";
+          button.title = "No audio file is connected to this demo song";
+        }
+
+        card.append(cover, title, artist, button);
+        grid.appendChild(card);
+      });
+    }
+
+    function updatePlayerLabels(title, artist) {
+      document.getElementById("nowTitle").textContent = title;
+      document.getElementById("nowArtist").textContent = artist;
+    }
+
+    function playSong(songId) {
+      const index = songs.findIndex(song => song.id === songId);
+
+      if (index === -1 || !songs[index].audio) return;
+
+      currentSongIndex = index;
+      audio.src = songs[index].audio;
+
+      updatePlayerLabels(
+        songs[index].title,
+        songs[index].artist
+      );
+
+      audio.play().catch(() => {
+        document.getElementById("uploadNotice").textContent =
+          "Press Play on the audio controls to start playback.";
+      });
+    }
+
+    document.getElementById("loadFile").addEventListener("click", () => {
+      const file = document.getElementById("audioFile").files[0];
+
+      if (!file) {
+        document.getElementById("uploadNotice").textContent =
+          "Please choose an audio file first.";
+        return;
+      }
+
+      if (localAudioUrl) {
+        URL.revokeObjectURL(localAudioUrl);
+      }
+
+      localAudioUrl = URL.createObjectURL(file);
+      audio.src = localAudioUrl;
+      currentSongIndex = -1;
+
+      updatePlayerLabels(file.name, "Local audio file");
+
+      audio.play().then(() => {
+        document.getElementById("uploadNotice").textContent =
+          "Playing your local file. It has not been uploaded.";
+      }).catch(() => {
+        document.getElementById("uploadNotice").textContent =
+          "File selected. Press Play on the audio controls.";
+      });
+    });
+
+    playPauseButton.addEventListener("click", () => {
+      if (!audio.src) return;
+
+      if (audio.paused) {
+        audio.play().catch(() => {});
+      } else {
+        audio.pause();
+      }
+    });
+
+    audio.addEventListener("play", () => {
+      playPauseButton.textContent = "⏸";
+    });
+
+    audio.addEventListener("pause", () => {
+      playPauseButton.textContent = "▶";
+    });
+
+    function playNextSong(direction) {
+      if (songs.length === 0) return;
+
+      let index = currentSongIndex;
+
+      for (let i = 0; i < songs.length; i++) {
+        index = (index + direction + songs.length) % songs.length;
+
+        if (songs[index].audio) {
+          playSong(songs[index].id);
+          return;
+        }
+      }
+
+      document.getElementById("uploadNotice").textContent =
+        "Connect an audio file before using next or previous.";
+    }
+
+    document.getElementById("nextButton").addEventListener("click", () => {
+      playNextSong(1);
+    });
+
+    document.getElementById("previousButton").addEventListener("click", () => {
+      playNextSong(-1);
+    });
+
+    searchInput.addEventListener("input", renderSongs);
+
+    document.querySelectorAll(".nav-button").forEach(button => {
+      button.addEventListener("click", () => {
+        currentView = button.dataset.view;
+
+        document.querySelectorAll(".nav-button").forEach(item => {
+          item.classList.toggle("active", item === button);
+        });
+
+        if (currentView === "search") {
+          searchInput.focus();
+          document.getElementById("pageTitle").textContent =
+            "Find your next favorite.";
+          document.getElementById("sectionTitle").textContent =
+            "Search results";
+        } else if (currentView === "library") {
+          document.getElementById("pageTitle").textContent =
+            "Your library.";
+          document.getElementById("sectionTitle").textContent =
+            "Your local music";
+        } else {
+          document.getElementById("pageTitle").textContent =
+            "Discover your sound.";
+          document.getElementById("sectionTitle").textContent =
+            "Featured music";
+        }
+
+        renderSongs();
+      });
+    });
+
+    window.addEventListener("beforeunload", () => {
+      if (localAudioUrl) {
+        URL.revokeObjectURL(localAudioUrl);
+      }
+    });
+
+    renderSongs();
+  </script>
+</body>
+</html>
