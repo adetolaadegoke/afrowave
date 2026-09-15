@@ -4,6 +4,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AfroWave — Music for your mood</title>
+
+  <!-- Connect AfroWave to its installable-app manifest -->
+  <link rel="manifest" href="./manifest.json">
+  <meta name="theme-color" content="#07111f">
+
   <style>
     :root {
       --bg: #10131f;
@@ -632,6 +637,16 @@
     });
 
     renderLists();
+
+    // Register the service worker for offline caching and PWA support.
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .catch(error => {
+            console.error("AfroWave service worker registration failed:", error);
+          });
+      });
+    }
   </script>
 </body>
 </html>
