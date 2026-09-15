@@ -241,6 +241,7 @@
     }
 
     .premium-hero h1 { max-width: 650px; }
+
     .features {
       display: grid;
       grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -431,8 +432,8 @@
     <div class="now-playing">
       <div class="cover">🎵</div>
       <div>
-        <strong id="now-title">My Music</strong>
-        <span id="now-artist">AfroWave</span>
+        <strong id="now-title">Eke adugbo1</strong>
+        <span id="now-artist">Fatia Olowonyo</span>
       </div>
     </div>
     <audio id="audio-player" controls preload="metadata">
@@ -452,11 +453,18 @@
   <script>
     const songs = [
       {
-        id: "my-music",
-        title: "My Music",
-        artist: "AfroWave",
+        id: "eke-adugbo1",
+        title: "Eke adugbo1",
+        artist: "Fatia Olowonyo",
         emoji: "🎵",
         audio: "music.mp3"
+      },
+      {
+        id: "omo-dada",
+        title: "Omo dada",
+        artist: "Haruna Isola",
+        emoji: "🎵",
+        audio: "new-song.mp3"
       }
     ];
 
@@ -490,10 +498,13 @@
 
       const info = document.createElement("div");
       info.className = "song-info";
+
       const title = document.createElement("strong");
       title.textContent = song.title;
+
       const artist = document.createElement("span");
       artist.textContent = song.artist;
+
       info.append(title, artist);
 
       const actions = document.createElement("div");
@@ -513,11 +524,13 @@
       save.title = saved ? "Remove from Library" : "Save to Library";
       save.setAttribute("aria-label", save.title);
       save.textContent = saved ? "♥" : "♡";
+
       save.addEventListener("click", () => {
         const ids = getSavedSongs();
         const updated = ids.includes(song.id)
           ? ids.filter(id => id !== song.id)
           : [...ids, song.id];
+
         saveSongs(updated);
         renderLists();
       });
@@ -556,9 +569,11 @@
 
     function renderLists() {
       const query = searchInput.value.trim().toLowerCase();
+
       const matchingSongs = songs.filter(song =>
         (song.title + " " + song.artist).toLowerCase().includes(query)
       );
+
       const savedIds = getSavedSongs();
       const savedSongs = matchingSongs.filter(song => savedIds.includes(song.id));
 
@@ -576,7 +591,8 @@
       }
 
       audioPlayer.play().catch(() => {
-        alert("The song could not start. Check that music.mp3 is uploaded beside index.html in your GitHub repository.");
+        alert("The song could not start. Check that " + song.audio +
+          " is uploaded beside index.html in your GitHub repository.");
       });
     }
 
@@ -595,6 +611,7 @@
       });
 
       if (pageName !== "home") searchInput.value = "";
+
       renderLists();
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
@@ -604,7 +621,10 @@
     });
 
     searchInput.addEventListener("input", renderLists);
-    document.getElementById("hero-play").addEventListener("click", () => playSong(songs[0]));
+
+    document.getElementById("hero-play").addEventListener("click", () => {
+      playSong(songs[0]);
+    });
 
     document.getElementById("premium-button").addEventListener("click", () => {
       document.getElementById("premium-message").textContent =
