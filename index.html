@@ -3,17 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Discover independent Nigerian music on AfroWave.">
-  <title>AfroWave — Discover Your Sound</title>
+  <meta name="theme-color" content="#101c2c">
+  <meta name="description" content="AfroWave — discover fresh Nigerian sounds and independent artists.">
+  <title>AfroWave | Your sound, your people</title>
 
   <style>
     :root {
-      --bg: #101010;
-      --panel: #181818;
-      --panel-hover: #252525;
-      --text: #ffffff;
-      --muted: #a7a7a7;
-      --green: #1ed760;
+      --bg: #101c2c;
+      --panel: #17263a;
+      --panel-hover: #22364e;
+      --orange: #ff783e;
+      --cream: #fff9ef;
+      --green: #c4f17c;
+      --muted: #aab5c3;
+      --line: rgba(255,255,255,.12);
     }
 
     * {
@@ -24,9 +27,9 @@
 
     body {
       background: var(--bg);
-      color: var(--text);
-      font-family: Arial, sans-serif;
-      padding-bottom: 105px;
+      color: var(--cream);
+      font-family: Arial, Helvetica, sans-serif;
+      padding-bottom: 130px;
     }
 
     button, input {
@@ -37,206 +40,420 @@
       cursor: pointer;
     }
 
-    .layout {
+    button:focus-visible,
+    input:focus-visible {
+      outline: 3px solid var(--green);
+      outline-offset: 3px;
+    }
+
+    .app {
       display: grid;
-      grid-template-columns: 230px minmax(0, 1fr);
-      gap: 8px;
-      padding: 8px;
+      grid-template-columns: 225px minmax(0, 1fr);
       min-height: 100vh;
     }
 
+    /* Sidebar */
+
     .sidebar {
-      background: var(--panel);
-      border-radius: 10px;
-      padding: 24px 16px;
+      background: #0b1522;
+      border-right: 1px solid var(--line);
+      padding: 25px 16px;
     }
 
-    .logo {
-      color: var(--green);
-      font-size: 27px;
-      font-weight: 800;
-      margin-bottom: 35px;
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 38px;
+      font-size: 25px;
+      font-weight: 900;
+      letter-spacing: -1px;
+    }
+
+    .brand-mark {
+      width: 38px;
+      height: 38px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--orange);
+      color: var(--bg);
+      font-size: 24px;
+    }
+
+    .nav-label {
+      margin: 25px 10px 12px;
+      color: #8292a5;
+      font-size: 11px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      text-transform: uppercase;
     }
 
     .nav-button {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 12px;
       width: 100%;
-      border: 0;
-      background: transparent;
-      color: var(--muted);
-      text-align: left;
-      padding: 13px 8px;
-      border-radius: 6px;
+      padding: 13px 12px;
       margin-bottom: 5px;
+      border: 0;
+      border-radius: 9px;
+      background: transparent;
+      color: #b9c4d0;
+      text-align: left;
     }
 
     .nav-button:hover,
     .nav-button.active {
-      background: var(--panel-hover);
+      background: var(--panel);
       color: white;
     }
 
+    .nav-button.active {
+      box-shadow: inset 3px 0 var(--orange);
+    }
+
+    .nav-icon {
+      width: 22px;
+      font-size: 19px;
+      text-align: center;
+    }
+
+    .sidebar-note {
+      margin-top: 40px;
+      padding: 15px;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.7;
+    }
+
+    .sidebar-note strong {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--cream);
+    }
+
+    /* Main */
+
     .main {
-      background: linear-gradient(#263b30, var(--panel) 350px);
-      border-radius: 10px;
-      padding: 28px;
       min-width: 0;
+      padding: 28px clamp(15px, 4vw, 45px);
+      background:
+        radial-gradient(ellipse at 90% 0%, rgba(255,120,62,.10), transparent 35%),
+        var(--bg);
     }
 
     .topbar {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      gap: 12px;
       flex-wrap: wrap;
-      margin-bottom: 35px;
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .search-wrap {
+      position: relative;
+      flex: 1;
+      min-width: 180px;
+      max-width: 440px;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: #8c9aaa;
+      pointer-events: none;
     }
 
     .search {
-      background: white;
-      color: #111;
+      width: 100%;
+      padding: 13px 16px 13px 42px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      background: #19283a;
+      color: white;
+    }
+
+    .search::placeholder {
+      color: #8c9aaa;
+    }
+
+    .listener {
+      padding: 10px 15px;
+      border: 1px solid var(--line);
+      border-radius: 30px;
+      color: var(--cream);
+      font-size: 13px;
+    }
+
+    /* Hero */
+
+    .hero {
+      position: relative;
+      isolation: isolate;
+      overflow: hidden;
+      min-height: 275px;
+      display: flex;
+      align-items: center;
+      padding: clamp(24px, 5vw, 48px);
+      border-radius: 20px;
+      background: var(--orange);
+      color: var(--bg);
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      z-index: -1;
+      width: 300px;
+      height: 300px;
+      right: -60px;
+      top: -90px;
+      border: 40px solid rgba(16,28,44,.12);
+      border-radius: 50%;
+    }
+
+    .hero::after {
+      content: "♪";
+      position: absolute;
+      z-index: -1;
+      right: 10%;
+      bottom: -55px;
+      color: rgba(16,28,44,.12);
+      font-size: 260px;
+      font-weight: bold;
+    }
+
+    .hero-content {
+      max-width: 500px;
+    }
+
+    .eyebrow {
+      margin-bottom: 17px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+    }
+
+    .hero h1 {
+      margin-bottom: 15px;
+      font-size: clamp(35px, 5vw, 58px);
+      line-height: 1.02;
+      letter-spacing: -2px;
+    }
+
+    .hero p {
+      max-width: 390px;
+      margin-bottom: 22px;
+      font-size: 15px;
+      line-height: 1.7;
+    }
+
+    .hero-button {
+      padding: 13px 20px;
       border: 0;
       border-radius: 30px;
-      padding: 13px 18px;
-      width: min(100%, 340px);
-      outline: none;
+      background: var(--bg);
+      color: white;
+      font-weight: bold;
     }
 
-    .profile {
-      background: #282828;
-      padding: 10px 15px;
-      border-radius: 25px;
-      font-size: 14px;
+    .hero-button:hover {
+      background: #24364a;
     }
 
-    h1 {
-      font-size: clamp(28px, 5vw, 42px);
-      margin-bottom: 12px;
-    }
+    /* Music sections */
 
-    .subtitle {
-      color: var(--muted);
-      line-height: 1.6;
-      margin-bottom: 28px;
+    .section {
+      margin-top: 36px;
     }
 
     .section-heading {
       display: flex;
-      justify-content: space-between;
       align-items: center;
+      justify-content: space-between;
       gap: 12px;
-      margin: 30px 0 18px;
+      margin-bottom: 18px;
     }
 
     .section-heading h2 {
-      font-size: 22px;
+      font-size: 21px;
+      letter-spacing: -.5px;
     }
 
-    .muted {
+    .section-heading p {
+      margin-top: 5px;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
+    }
+
+    .count {
+      color: var(--muted);
+      font-size: 12px;
+      white-space: nowrap;
     }
 
     .music-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-      gap: 16px;
+      grid-template-columns: repeat(auto-fill, minmax(145px, 1fr));
+      gap: 15px;
     }
 
     .song-card {
-      background: rgba(24, 24, 24, 0.8);
-      border-radius: 9px;
-      padding: 13px;
-      transition: background 0.2s;
       min-width: 0;
+      padding: 12px;
+      border: 1px solid transparent;
+      border-radius: 13px;
+      background: var(--panel);
+      transition: background .2s;
     }
 
     .song-card:hover {
-      background: #282828;
+      background: var(--panel-hover);
+      border-color: var(--line);
     }
 
     .cover {
-      aspect-ratio: 1;
+      position: relative;
+      overflow: hidden;
       display: grid;
       place-items: center;
-      border-radius: 7px;
-      margin-bottom: 14px;
-      font-size: 45px;
-      background: linear-gradient(135deg, #315e4a, #17251d);
+      aspect-ratio: 1;
+      margin-bottom: 13px;
+      border-radius: 9px;
+      background: var(--cream);
+      color: var(--bg);
+      font-size: 55px;
     }
 
+    .cover::after {
+      content: "";
+      position: absolute;
+      width: 80%;
+      height: 80%;
+      border: 1px solid rgba(16,28,44,.12);
+      border-radius: 50%;
+    }
+
+    .orange { background: #ff783e; }
+    .green { background: #c4f17c; }
+    .blue { background: #9dc8f5; }
+    .cream { background: #f3d9ad; }
+    .pink { background: #efb5b9; }
+    .purple { background: #c8b8f3; }
+
     .song-card h3 {
-      font-size: 15px;
-      margin-bottom: 7px;
+      margin-bottom: 5px;
+      font-size: 14px;
+      line-height: 1.4;
       overflow-wrap: anywhere;
     }
 
-    .song-card p {
+    .artist {
+      margin-bottom: 13px;
       color: var(--muted);
-      font-size: 13px;
-      margin-bottom: 15px;
+      font-size: 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .card-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
     }
 
     .play-button {
-      background: var(--green);
-      color: #071b0d;
+      padding: 9px 13px;
       border: 0;
-      border-radius: 25px;
-      padding: 10px 17px;
-      font-weight: bold;
+      border-radius: 22px;
+      background: var(--green);
+      color: var(--bg);
+      font-size: 12px;
+      font-weight: 800;
     }
 
     .play-button:hover {
-      background: #6cff9c;
+      background: #dcffae;
     }
 
-    .upload-box {
-      margin-top: 30px;
-      padding: 20px;
-      border: 1px solid #393939;
-      border-radius: 10px;
+    .play-button:disabled {
+      opacity: .45;
+      cursor: not-allowed;
     }
 
-    .upload-box h2 {
-      margin-bottom: 10px;
-      font-size: 19px;
+    .track-tag {
+      color: #8fa0b2;
+      font-size: 10px;
     }
 
-    .upload-box p {
+    .empty-message {
+      grid-column: 1 / -1;
+      padding: 20px 0;
       color: var(--muted);
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
+    }
+
+    /* Local music tester */
+
+    .local-box {
+      padding: 23px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #142237;
+    }
+
+    .local-box h2 {
+      margin-bottom: 9px;
+      font-size: 18px;
+    }
+
+    .local-box p {
       margin-bottom: 15px;
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.7;
     }
 
     .file-input {
       display: block;
       width: 100%;
-      max-width: 400px;
+      max-width: 420px;
+      margin-bottom: 15px;
       color: var(--muted);
-      margin-bottom: 12px;
+      font-size: 13px;
     }
 
     .notice {
+      margin-top: 12px;
       color: var(--muted);
       font-size: 12px;
-      margin-top: 12px;
-      line-height: 1.5;
+      line-height: 1.6;
     }
+
+    /* Player */
 
     .player {
       position: fixed;
+      z-index: 10;
+      right: 0;
       bottom: 0;
       left: 0;
-      right: 0;
-      z-index: 5;
-      background: #090909;
-      border-top: 1px solid #303030;
-      padding: 14px 22px;
       display: grid;
       grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
       align-items: center;
-      gap: 20px;
+      gap: 22px;
+      padding: 15px 25px;
+      border-top: 1px solid var(--line);
+      background: #0a1420;
     }
 
     .now-playing {
@@ -245,75 +462,96 @@
 
     .now-playing strong {
       display: block;
-      overflow-wrap: anywhere;
       margin-bottom: 5px;
+      font-size: 13px;
+      overflow-wrap: anywhere;
     }
 
     .now-playing span {
+      display: block;
       color: var(--muted);
-      font-size: 13px;
+      font-size: 12px;
+      overflow-wrap: anywhere;
     }
 
     .player-controls {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
+      gap: 14px;
+      min-width: 0;
     }
 
     .control-button {
+      flex-shrink: 0;
       border: 0;
       background: transparent;
       color: white;
-      font-size: 22px;
+      font-size: 20px;
     }
 
-    .control-button.main-play {
-      background: white;
-      color: black;
-      border-radius: 50%;
+    .main-play {
+      display: grid;
+      place-items: center;
       width: 42px;
       height: 42px;
-      font-size: 19px;
+      border-radius: 50%;
+      background: var(--cream);
+      color: var(--bg);
+      font-size: 17px;
+    }
+
+    .control-button:disabled {
+      opacity: .35;
+      cursor: not-allowed;
     }
 
     audio {
       width: 100%;
-      max-width: 500px;
-      height: 32px;
+      max-width: 440px;
+      min-width: 0;
+      height: 34px;
     }
 
-    .empty-message {
-      color: var(--muted);
-      padding: 15px 0;
-      line-height: 1.6;
-    }
-
-    @media (max-width: 700px) {
-      .layout {
+    @media (max-width: 760px) {
+      .app {
         display: block;
-        padding: 0;
       }
 
       .sidebar {
-        border-radius: 0;
         padding: 16px;
+        border-right: 0;
+        border-bottom: 1px solid var(--line);
       }
 
-      .logo {
-        margin-bottom: 12px;
+      .brand {
+        margin-bottom: 14px;
+      }
+
+      .nav-label,
+      .sidebar-note {
+        display: none;
+      }
+
+      .sidebar nav {
+        display: flex;
+        gap: 6px;
+        overflow-x: auto;
       }
 
       .nav-button {
-        display: inline-block;
         width: auto;
-        margin-right: 5px;
+        flex-shrink: 0;
+        margin: 0;
+        padding: 10px 12px;
       }
 
       .main {
-        border-radius: 0;
-        padding: 20px 16px;
+        padding: 20px 15px;
+      }
+
+      .hero {
+        min-height: 250px;
       }
 
       .music-grid {
@@ -324,70 +562,123 @@
       .player {
         grid-template-columns: 1fr;
         gap: 10px;
-        padding: 10px 14px;
+        padding: 12px 14px;
       }
 
       .player-controls {
         justify-content: flex-start;
+        gap: 10px;
+      }
+
+      audio {
+        flex: 1;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 380px) {
+      .listener {
+        display: none;
+      }
+
+      .hero h1 {
+        font-size: 34px;
+      }
+
+      .cover {
+        font-size: 42px;
+      }
+
+      .player-controls {
+        gap: 7px;
       }
     }
   </style>
 </head>
 
 <body>
-  <div class="layout">
+  <div class="app">
 
     <aside class="sidebar">
-      <div class="logo">♪ AfroWave</div>
+      <div class="brand">
+        <span class="brand-mark">♪</span>
+        <span>AfroWave</span>
+      </div>
 
       <nav aria-label="Main navigation">
+        <p class="nav-label">Discover</p>
+
         <button class="nav-button active" data-view="home">
-          🏠 Home
+          <span class="nav-icon">⌂</span>
+          Home
         </button>
+
         <button class="nav-button" data-view="search">
-          🔍 Search
+          <span class="nav-icon">⌕</span>
+          Search
         </button>
+
+        <p class="nav-label">Your music</p>
+
         <button class="nav-button" data-view="library">
-          📚 Your Library
+          <span class="nav-icon">♫</span>
+          Your library
         </button>
       </nav>
+
+      <div class="sidebar-note">
+        <strong>Made for music lovers.</strong>
+        Discover fresh sounds, support independent artists and enjoy the rhythm.
+      </div>
     </aside>
 
     <main class="main">
+
       <div class="topbar">
-        <input
-          class="search"
-          id="searchInput"
-          type="search"
-          placeholder="Search songs or artists..."
-          aria-label="Search songs or artists"
-        >
-        <div class="profile">🎧 Music lover</div>
+        <div class="search-wrap">
+          <span class="search-icon">⌕</span>
+          <input
+            class="search"
+            id="searchInput"
+            type="search"
+            placeholder="Search songs or artists..."
+            aria-label="Search songs or artists"
+          >
+        </div>
+
+        <div class="listener">♪ Music lover</div>
       </div>
 
-      <section>
-        <h1 id="pageTitle">Discover your sound.</h1>
-        <p class="subtitle" id="pageSubtitle">
-          Explore Nigerian music and discover your next favorite artist.
-        </p>
+      <section class="hero">
+        <div class="hero-content">
+          <p class="eyebrow">Your sound. Your people.</p>
+          <h1 id="pageTitle">The rhythm starts here.</h1>
+          <p id="pageSubtitle">
+            Discover fresh Nigerian sounds and find the next song you'll love.
+          </p>
+          <button class="hero-button" id="discoverButton">
+            Explore music →
+          </button>
+        </div>
       </section>
 
-      <div class="section-heading">
-        <h2 id="sectionTitle">Featured music</h2>
-        <span class="muted" id="songCount">0 songs</span>
-      </div>
+      <section class="section">
+        <div class="section-heading">
+          <div>
+            <h2 id="sectionTitle">Fresh on AfroWave</h2>
+            <p id="sectionSubtitle">A little something for your ears.</p>
+          </div>
+          <span class="count" id="songCount">0 songs</span>
+        </div>
 
-      <section
-        class="music-grid"
-        id="musicGrid"
-        aria-label="Music collection"
-      ></section>
+        <div class="music-grid" id="musicGrid"></div>
+      </section>
 
-      <section class="upload-box">
-        <h2>Try your own music</h2>
+      <section class="section local-box">
+        <h2>Play music from your device</h2>
         <p>
-          Choose an audio file from your device to test the music player.
-          This is a local demo; your file is not uploaded to a server.
+          Choose an MP3 or another supported audio file from your laptop.
+          It will play in this browser only. It is not uploaded to AfroWave.
         </p>
 
         <input
@@ -406,6 +697,7 @@
           Only use music you own or have permission to play.
         </p>
       </section>
+
     </main>
   </div>
 
@@ -416,31 +708,34 @@
     </div>
 
     <div class="player-controls">
-      <button
-        class="control-button"
-        id="previousButton"
-        aria-label="Previous song"
-      >⏮</button>
+      <button class="control-button" id="previousButton"
+        aria-label="Previous song" disabled>⏮</button>
 
-      <button
-        class="control-button main-play"
-        id="playPauseButton"
-        aria-label="Play or pause"
-      >▶</button>
+      <button class="control-button main-play" id="playPauseButton"
+        aria-label="Play or pause">▶</button>
 
-      <button
-        class="control-button"
-        id="nextButton"
-        aria-label="Next song"
-      >⏭</button>
+      <button class="control-button" id="nextButton"
+        aria-label="Next song" disabled>⏭</button>
 
       <audio id="audioPlayer" controls preload="metadata"></audio>
     </div>
   </footer>
 
   <script>
-    // AfroWave: first frontend prototype.
-    // Songs added here are demonstration entries, not real audio.
+    /*
+      AFROWAVE MUSIC COLLECTION
+
+      To add a song, put its audio file in the music folder
+      in your GitHub repository.
+
+      Example:
+      music/my-song.mp3
+
+      Then change the audio value below to:
+      audio: "music/my-song.mp3"
+
+      The audio file must exist in your repository.
+    */
 
     const songs = [
       {
@@ -448,6 +743,7 @@
         title: "Your First Song",
         artist: "AfroWave Artist",
         emoji: "🎵",
+        theme: "orange",
         audio: ""
       },
       {
@@ -455,6 +751,7 @@
         title: "Lagos Nights",
         artist: "Demo Artist",
         emoji: "🌃",
+        theme: "blue",
         audio: ""
       },
       {
@@ -462,6 +759,7 @@
         title: "Golden Vibes",
         artist: "Demo Artist",
         emoji: "✨",
+        theme: "green",
         audio: ""
       },
       {
@@ -469,6 +767,23 @@
         title: "Afrobeat Energy",
         artist: "Demo Artist",
         emoji: "🥁",
+        theme: "cream",
+        audio: ""
+      },
+      {
+        id: 5,
+        title: "Evening Breeze",
+        artist: "Demo Artist",
+        emoji: "🌅",
+        theme: "pink",
+        audio: ""
+      },
+      {
+        id: 6,
+        title: "Street Rhythm",
+        artist: "Demo Artist",
+        emoji: "🎧",
+        theme: "purple",
         audio: ""
       }
     ];
@@ -481,11 +796,14 @@
     const audio = document.getElementById("audioPlayer");
     const searchInput = document.getElementById("searchInput");
     const playPauseButton = document.getElementById("playPauseButton");
+    const previousButton = document.getElementById("previousButton");
+    const nextButton = document.getElementById("nextButton");
+    const notice = document.getElementById("uploadNotice");
 
     function renderSongs() {
       const query = searchInput.value.trim().toLowerCase();
 
-      let visibleSongs = songs.filter(song => {
+      const visibleSongs = songs.filter(song => {
         const matchesSearch =
           song.title.toLowerCase().includes(query) ||
           song.artist.toLowerCase().includes(query);
@@ -499,11 +817,12 @@
       grid.innerHTML = "";
 
       document.getElementById("songCount").textContent =
-        visibleSongs.length + (visibleSongs.length === 1 ? " song" : " songs");
+        visibleSongs.length +
+        (visibleSongs.length === 1 ? " song" : " songs");
 
       if (visibleSongs.length === 0) {
         grid.innerHTML =
-          '<p class="empty-message">No songs found. Try another search or select a local audio file below.</p>';
+          '<p class="empty-message">No songs found. Try another search or add music to your library.</p>';
         return;
       }
 
@@ -512,30 +831,40 @@
         card.className = "song-card";
 
         const cover = document.createElement("div");
-        cover.className = "cover";
+        cover.className = "cover " + song.theme;
         cover.textContent = song.emoji;
 
         const title = document.createElement("h3");
         title.textContent = song.title;
 
         const artist = document.createElement("p");
+        artist.className = "artist";
         artist.textContent = song.artist;
+
+        const bottom = document.createElement("div");
+        bottom.className = "card-bottom";
 
         const button = document.createElement("button");
         button.className = "play-button";
-        button.textContent = song.audio ? "▶ Play" : "Demo only";
+
+        const tag = document.createElement("span");
+        tag.className = "track-tag";
 
         if (song.audio) {
+          button.textContent = "▶ Play";
+          tag.textContent = "AUDIO";
+
           button.addEventListener("click", () => {
             playSong(song.id);
           });
         } else {
+          button.textContent = "Coming soon";
           button.disabled = true;
-          button.style.opacity = "0.55";
-          button.title = "No audio file is connected to this demo song";
+          tag.textContent = "PREVIEW";
         }
 
-        card.append(cover, title, artist, button);
+        bottom.append(button, tag);
+        card.append(cover, title, artist, bottom);
         grid.appendChild(card);
       });
     }
@@ -545,12 +874,18 @@
       document.getElementById("nowArtist").textContent = artist;
     }
 
+    function updateNavigation() {
+      previousButton.disabled = !songs.some(song => song.audio);
+      nextButton.disabled = !songs.some(song => song.audio);
+    }
+
     function playSong(songId) {
       const index = songs.findIndex(song => song.id === songId);
 
       if (index === -1 || !songs[index].audio) return;
 
       currentSongIndex = index;
+
       audio.src = songs[index].audio;
 
       updatePlayerLabels(
@@ -559,122 +894,31 @@
       );
 
       audio.play().catch(() => {
-        document.getElementById("uploadNotice").textContent =
-          "Press Play on the audio controls to start playback.";
+        notice.textContent =
+          "The song could not start. Check the audio file path and try again.";
       });
     }
 
-    document.getElementById("loadFile").addEventListener("click", () => {
-      const file = document.getElementById("audioFile").files[0];
-
-      if (!file) {
-        document.getElementById("uploadNotice").textContent =
-          "Please choose an audio file first.";
+    function playNextSong(direction) {
+      if (currentSongIndex === -1) {
+        const first = songs.find(song => song.audio);
+        if (first) playSong(first.id);
         return;
       }
 
-      if (localAudioUrl) {
-        URL.revokeObjectURL(localAudioUrl);
-      }
-
-      localAudioUrl = URL.createObjectURL(file);
-      audio.src = localAudioUrl;
-      currentSongIndex = -1;
-
-      updatePlayerLabels(file.name, "Local audio file");
-
-      audio.play().then(() => {
-        document.getElementById("uploadNotice").textContent =
-          "Playing your local file. It has not been uploaded.";
-      }).catch(() => {
-        document.getElementById("uploadNotice").textContent =
-          "File selected. Press Play on the audio controls.";
-      });
-    });
-
-    playPauseButton.addEventListener("click", () => {
-      if (!audio.src) return;
-
-      if (audio.paused) {
-        audio.play().catch(() => {});
-      } else {
-        audio.pause();
-      }
-    });
-
-    audio.addEventListener("play", () => {
-      playPauseButton.textContent = "⏸";
-    });
-
-    audio.addEventListener("pause", () => {
-      playPauseButton.textContent = "▶";
-    });
-
-    function playNextSong(direction) {
-      if (songs.length === 0) return;
-
-      let index = currentSongIndex;
-
-      for (let i = 0; i < songs.length; i++) {
-        index = (index + direction + songs.length) % songs.length;
+      for (let i = 1; i <= songs.length; i++) {
+        const index =
+          (currentSongIndex + direction * i + songs.length * 2) %
+          songs.length;
 
         if (songs[index].audio) {
           playSong(songs[index].id);
           return;
         }
       }
-
-      document.getElementById("uploadNotice").textContent =
-        "Connect an audio file before using next or previous.";
     }
 
-    document.getElementById("nextButton").addEventListener("click", () => {
-      playNextSong(1);
-    });
+    document.getElementById("loadFile").addEventListener("click", () => {
+      const file = document.getElementById("audioFile").files[0];
 
-    document.getElementById("previousButton").addEventListener("click", () => {
-      playNextSong(-1);
-    });
-
-    searchInput.addEventListener("input", renderSongs);
-
-    document.querySelectorAll(".nav-button").forEach(button => {
-      button.addEventListener("click", () => {
-        currentView = button.dataset.view;
-
-        document.querySelectorAll(".nav-button").forEach(item => {
-          item.classList.toggle("active", item === button);
-        });
-
-        if (currentView === "search") {
-          searchInput.focus();
-          document.getElementById("pageTitle").textContent =
-            "Find your next favorite.";
-          document.getElementById("sectionTitle").textContent =
-            "Search results";
-        } else if (currentView === "library") {
-          document.getElementById("pageTitle").textContent =
-            "Your library.";
-          document.getElementById("sectionTitle").textContent =
-            "Your local music";
-        } else {
-          document.getElementById("pageTitle").textContent =
-            "Discover your sound.";
-          document.getElementById("sectionTitle").textContent =
-            "Featured music";
-        }
-
-        renderSongs();
-      });
-    });
-
-    window.addEventListener("beforeunload", () => {
-      if (localAudioUrl) {
-        URL.revokeObjectURL(localAudioUrl);
-      }
-    });
-
-    renderSongs();
-  </script>
-</body>
-</html>
+      if
