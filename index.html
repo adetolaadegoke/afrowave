@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AfroWave — Music for your mood</title>
+
   <link rel="manifest" href="./manifest.json">
   <meta name="theme-color" content="#07111f">
 
@@ -415,12 +416,7 @@
       <div class="brand"><span class="brand-mark">♫</span> AfroWave</div>
       <div class="search-wrap">
         <span>⌕</span>
-        <input
-          id="search"
-          type="search"
-          placeholder="Search songs or artists..."
-          aria-label="Search songs"
-        >
+        <input id="search" type="search" placeholder="Search songs or artists..." aria-label="Search songs">
       </div>
     </header>
 
@@ -476,26 +472,11 @@
       </div>
 
       <div class="features">
-        <div class="feature">
-          <span>🎧</span>
-          <b>Focused listening</b>
-          <p>Enjoy your music in a clean, listener-friendly space.</p>
-        </div>
-        <div class="feature">
-          <span>⬇️</span>
-          <b>Keep music close</b>
-          <p>Use Downloads for music files made available by AfroWave.</p>
-        </div>
-        <div class="feature">
-          <span>💛</span>
-          <b>Your favourites</b>
-          <p>Save songs to your personal Library on this device.</p>
-        </div>
+        <div class="feature"><span>🎧</span><b>Focused listening</b><p>Enjoy your music in a clean, listener-friendly space.</p></div>
+        <div class="feature"><span>⬇️</span><b>Keep music close</b><p>Use Downloads for music files made available by AfroWave.</p></div>
+        <div class="feature"><span>💛</span><b>Your favourites</b><p>Save songs to your personal Library on this device.</p></div>
       </div>
-
-      <p class="notice" id="premium-message" aria-live="polite">
-        Premium is currently a demo. Real subscriptions require a payment provider and secure backend.
-      </p>
+      <p class="notice" id="premium-message" aria-live="polite">Premium is currently a demo. Real subscriptions require a payment provider and secure backend.</p>
     </section>
   </main>
 
@@ -513,21 +494,11 @@
   </div>
 
   <nav class="bottom-nav" aria-label="Main navigation">
-    <button class="nav-button active" data-page="home" type="button">
-      <span class="nav-icon">⌂</span><span>Home</span>
-    </button>
-    <button class="nav-button" data-page="search" type="button">
-      <span class="nav-icon">⌕</span><span>Search</span>
-    </button>
-    <button class="nav-button" data-page="library" type="button">
-      <span class="nav-icon">▤</span><span>Library</span>
-    </button>
-    <button class="nav-button" data-page="downloads" type="button">
-      <span class="nav-icon">↓</span><span>Downloads</span>
-    </button>
-    <button class="nav-button" data-page="premium" type="button">
-      <span class="nav-icon">✦</span><span>Premium</span>
-    </button>
+    <button class="nav-button active" data-page="home" type="button"><span class="nav-icon">⌂</span><span>Home</span></button>
+    <button class="nav-button" data-page="search" type="button"><span class="nav-icon">⌕</span><span>Search</span></button>
+    <button class="nav-button" data-page="library" type="button"><span class="nav-icon">▤</span><span>Library</span></button>
+    <button class="nav-button" data-page="downloads" type="button"><span class="nav-icon">↓</span><span>Downloads</span></button>
+    <button class="nav-button" data-page="premium" type="button"><span class="nav-icon">✦</span><span>Premium</span></button>
   </nav>
 
   <script>
@@ -548,7 +519,7 @@
       },
       {
         id: "cost-of-living",
-        title: "Cost of Living",
+        title: "Cost of living",
         artist: "Jhaadilx",
         emoji: "🎵",
         audio: "Jhaadilx.mp3"
@@ -666,17 +637,8 @@
       const savedSongs = matchingSongs.filter(song => savedIds.includes(song.id));
 
       renderList("home-list", matchingSongs, "No songs match your search.");
-      renderList(
-        "library-list",
-        savedSongs,
-        "Your Library is empty. Tap ♡ beside a song to save it."
-      );
-      renderList(
-        "downloads-list",
-        matchingSongs,
-        "No downloadable songs match your search.",
-        true
-      );
+      renderList("library-list", savedSongs, "Your Library is empty. Tap ♡ beside a song to save it.");
+      renderList("downloads-list", matchingSongs, "No downloadable songs match your search.", true);
     }
 
     function playSong(song) {
@@ -746,3 +708,50 @@
     });
 
     function showPage(pageName) {
+      if (pageName === "search") {
+        searchInput.focus();
+        pageName = "home";
+      }
+
+      document.querySelectorAll(".page").forEach(page => {
+        page.classList.toggle("active", page.id === "page-" + pageName);
+      });
+
+      document.querySelectorAll(".nav-button").forEach(button => {
+        button.classList.toggle("active", button.dataset.page === pageName);
+      });
+
+      if (pageName !== "home") searchInput.value = "";
+
+      renderLists();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    document.querySelectorAll(".nav-button").forEach(button => {
+      button.addEventListener("click", () => showPage(button.dataset.page));
+    });
+
+    searchInput.addEventListener("input", renderLists);
+
+    document.getElementById("hero-play").addEventListener("click", () => {
+      playSong(songs[0]);
+    });
+
+    document.getElementById("premium-button").addEventListener("click", () => {
+      document.getElementById("premium-message").textContent =
+        "Thanks for exploring AfroWave Premium! This is a preview—subscriptions and payments are not enabled yet.";
+    });
+
+    renderLists();
+
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js")
+          .catch(error => {
+            console.error("AfroWave service worker registration failed:", error);
+          });
+      });
+    }
+  </script>
+</body>
+</html>
